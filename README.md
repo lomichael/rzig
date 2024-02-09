@@ -1,2 +1,2 @@
-# guacc
-Guacc's Ultimately Another C Compiler
+# C Compiler
+A C-to-x86 compiler.
