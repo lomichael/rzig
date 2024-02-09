@@ -1,2 +1,2 @@
-# C Compiler
-A C-to-x86 compiler.
+# micc
+My Instructional C Compiler.
