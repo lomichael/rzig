@@ -1,4 +1,4 @@
-# C Compiler: A Toy Project
+# Rust Compiler
 [![justforfunnoreally.dev badge](https://img.shields.io/badge/justforfunnoreally-dev-9ff)](https://justforfunnoreally.dev)
 
-A toy C compiler done in my free time.
+A small Rust compiler written in C, done in my free time as a learning project.

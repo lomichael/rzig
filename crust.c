@@ -7,7 +7,7 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  printf(".intel_syntax noprefix\n"); // asm to use intel instead of att syntax
+  printf(".intel_syntax noprefix\n"); // use intel instead of att syntax
   printf(".global main\n"); // defines a global label main
   printf("main:\n"); 
   printf("  mov rax, %d\n", atoi(argv[1])); // setting the arg in the return value register (rax)
