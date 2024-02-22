@@ -3,7 +3,7 @@ assert() {
     expected="$1"
     input="$2"
 
-    ./crust "$input" > tmp.s
+    ./rzig "$input" > tmp.s
     cc tmp.s -o tmp
     ./tmp
     actual="$?"

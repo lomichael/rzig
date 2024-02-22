@@ -1,7 +1,18 @@
-# Rust Compiler
+# rzig 
+[![MIT License](https://img.shields.io/badge/license-MIT-blue)](/LICENSE)
 [![justforfunnoreally.dev badge](https://img.shields.io/badge/justforfunnoreally-dev-9ff)](https://justforfunnoreally.dev)
 
-A small Rust compiler written in C, done in my free time as a learning project.
+A Zig compiler written in Rust.
+
+> **DISCLAIMER**: This is a work-in-progress hobby project. Use at your own risk.
+
+## Prerequisites
+- Rust
+
+## Usage
+```sh
+whoami
+```
 
 ## Test Progress
 - [ ] Integers
@@ -35,3 +46,6 @@ A small Rust compiler written in C, done in my free time as a learning project.
     - [ ] `break` and `continue`
 - [ ] Functions
 - [ ] Global Variables
+
+## License
+rzig is licensed under the MIT License. See `LICENSE` in the project for details.
