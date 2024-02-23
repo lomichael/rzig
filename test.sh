@@ -3,7 +3,7 @@ assert() {
     expected="$1"
     input="$2"
 
-    ./rzig "$input" > tmp.s
+    ./target/debug/rzig "test/$input" > tmp.s
     cc tmp.s -o tmp
     ./tmp
     actual="$?"
@@ -16,7 +16,5 @@ assert() {
     fi
 }
 
-assert 0 0
-assert 42 42
-
+assert 42 "test.zig" 
 echo OK

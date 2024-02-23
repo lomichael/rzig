@@ -2,4 +2,9 @@
 *.o
 tmp*
 a.out
-micc
+rzig
+
+
+# Added by cargo
+
+/target
