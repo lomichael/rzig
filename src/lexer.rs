@@ -1,10 +1,17 @@
 extern crate regex;
 
+use log::debug;
 use regex::Regex;
 use regex::Match;
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum Token {
+    KEYWORDexport, // 'export'
+    KEYWORDfn, // 'fn'
+	KEYWORDpub, // 'pub'
+    KEYWORDreturn, // 'return'
+    KEYWORDreturntype(String), // 'u8' or 'i32' (NOT TO SPEC)
+	// MATCH IDENTIFIER AFTER KEYWORDS
     IDENTIFIER(String), // 'main'
     INTEGER(i32), // '42'
     LBRACKET, // '{'
@@ -12,15 +19,17 @@ pub enum Token {
     RBRACKET, // '}' 
     RPAREN, // ')'
     SEMICOLON, // ';'
-    KEYWORD_export, // 'export'
-    KEYWORD_fn, // 'fn'
-    KEYWORD_return, // 'return'
-    KEYWORD_returntype(String), // 'i32' (NOT TO SPEC)
 }
 
 pub fn tokenize(input: &str) -> Vec<Token> {
     // the regex for matching different tokens
     let lexer_spec = [
+        (Regex::new(r"\bexport\b").unwrap(), "KEYWORDexport"),
+        (Regex::new(r"\bfn\b").unwrap(), "KEYWORDfn"),
+        (Regex::new(r"\bpub\b").unwrap(), "KEYWORDpub"),
+        (Regex::new(r"\breturn\b").unwrap(), "KEYWORDreturn"),
+        (Regex::new(r"\bu8|i32\b").unwrap(), "KEYWORDreturntype"),
+		// MATCH IDENTIFIER AFTER KEYWORDS
         (Regex::new(r"[a-zA-Z_]\w*").unwrap(), "IDENTIFIER"),
         (Regex::new(r"[0-9]+").unwrap(), "INTEGER"),
         (Regex::new(r"\{").unwrap(), "LBRACKET"),
@@ -28,10 +37,6 @@ pub fn tokenize(input: &str) -> Vec<Token> {
         (Regex::new(r"\}").unwrap(), "RBRACKET"),
         (Regex::new(r"\)").unwrap(), "RPAREN"),
         (Regex::new(r"\;").unwrap(), "SEMICOLON"),
-        (Regex::new(r"export").unwrap(), "KEYWORD_export"),
-        (Regex::new(r"fn").unwrap(), "KEYWORD_fn"),
-        (Regex::new(r"return").unwrap(), "KEYWORD_return"),
-        (Regex::new(r"i32").unwrap(), "KEYWORD_returntype"),
     ];
 
     // the token list we return
@@ -39,6 +44,8 @@ pub fn tokenize(input: &str) -> Vec<Token> {
 
     let mut input = input;
     while !input.is_empty() {
+		input = input.trim_start();
+
         let mut longest_match: Option<(Match, &str)> = None;
         for (regex, token_name) in lexer_spec.iter() {
             if let Some(regex_match) = regex.find(input) {
@@ -59,18 +66,25 @@ pub fn tokenize(input: &str) -> Vec<Token> {
                     "RBRACKET" => Token::RBRACKET,
                     "RPAREN" => Token::RPAREN,
                     "SEMICOLON" => Token::SEMICOLON,
-                    "KEYWORD_export" => Token::KEYWORD_export,
-                    "KEYWORD_fn" => Token::KEYWORD_fn,
-                    "KEYWORD_return" => Token::KEYWORD_return,
-                    "KEYWORD_returntype" => Token::KEYWORD_returntype(regex_match.as_str().into()),
+                    "KEYWORDexport" => Token::KEYWORDexport,
+                    "KEYWORDfn" => Token::KEYWORDfn,
+                    "KEYWORDpub" => Token::KEYWORDpub,
+                    "KEYWORDreturn" => Token::KEYWORDreturn,
+                    "KEYWORDreturntype" => Token::KEYWORDreturntype(regex_match.as_str().into()),
                     _ => panic!("Unknown token"),
                 };
                 tokens.push(token);
                 input = &input[regex_match.end()..];
             },
-            None => panic!("Invlaid token at position {}", input.chars().next().unwrap()),
+            None => {
+				if !input.is_empty() {
+					panic!("Invalid token at position {}", input.chars().next().unwrap());
+				}
+				break;
+			},
         }
     }
-
+	
+	debug!("Tokenized input: {:?}", tokens);
     tokens
 }

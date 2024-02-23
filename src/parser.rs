@@ -1,3 +1,4 @@
+use log::debug;
 use crate::lexer::Token;
 
 #[derive(Debug)]
@@ -56,13 +57,14 @@ impl Parser {
                 functions.push(function_declaration);
             }
         }
+		debug!("Parsed functions: {:?}", functions);
         ASTNode::Program(functions)
     }
 
     fn parse_function_declaration(&mut self) -> Option<FunctionDeclaration> {
         // function declaration starting tokens (e.g. 'export fn')
         match (self.next_token()?, self.next_token()?) {
-            (Token::KEYWORD_export, Token::KEYWORD_fn) => (),
+            (Token::KEYWORDexport, Token::KEYWORDfn) => (),
             _ => return None,
         }
 
@@ -78,7 +80,7 @@ impl Parser {
         self.expect_token(Token::RPAREN)?;
 
         // get the return type (e.g. 'i32')
-        let return_type = if let Token::KEYWORD_returntype(type_expr) = self.next_token()? {
+        let return_type = if let Token::KEYWORDreturntype(type_expr) = self.next_token()? {
             type_expr
         } else {
             return None;
@@ -112,7 +114,7 @@ impl Parser {
 
     fn parse_statement(&mut self) -> Option<Statement> {
         match self.next_token()? {
-            Token::KEYWORD_return => {
+            Token::KEYWORDreturn => {
                 let expression = self.parse_expression()?;
                 self.expect_token(Token::SEMICOLON)?;
                 Some(Statement::Return(expression))

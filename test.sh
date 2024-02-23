@@ -3,8 +3,10 @@ assert() {
     expected="$1"
     input="$2"
 
-    ./target/debug/rzig "test/$input" > tmp.s
-    cc tmp.s -o tmp
+    ./target/debug/rzig "test/$input"
+    gcc tmp.s -o tmp # assembling using gcc
+	# nasm -f bin tmp.s -o tmp # assembling using nasm
+	chmod +x ./tmp
     ./tmp
     actual="$?"
 
@@ -16,5 +18,5 @@ assert() {
     fi
 }
 
-assert 42 "test.zig" 
+assert 42 "simple.zig" 
 echo OK

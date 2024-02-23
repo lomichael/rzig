@@ -6,7 +6,8 @@ mod writer;
 use crate::parser::Parser;
 use crate::codegen::CodeGen;
 
-fn main() {
+pub fn main() {
+	env_logger::init();
 	let args: Vec<String> = std::env::args().collect();
 
 	if args.len() != 2 {
@@ -25,6 +26,7 @@ fn main() {
     let ast = parser.parse_program();
 
     // back end
-    let asm_code = CodeGen::generate(&ast);
-    let _ = writer::write_to_file("tmp.s", &asm_code);
+	let codegen = CodeGen::new();
+    let asm_code = codegen.generate(&ast);
+	let _ = writer::write_to_file("tmp.s", &asm_code);
 }
