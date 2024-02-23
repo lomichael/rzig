@@ -8,14 +8,31 @@ A Zig compiler written in Rust.
 
 ## Prerequisites
 - Rust
+- GCC
+- x86 processor
 
 ## Usage
+To build the compiler:
 ```sh
-whoami
+make
+```
+or:
+```sh
+cargo build
 ```
 
-## Test Progress
-- [ ] Integers
+To build and run the tests:
+```sh
+make test
+```
+
+To run the compiler:
+```sh
+./target/debug/rzig <your_zig_file>
+```
+
+## Tests
+- [X] Integers
 - [ ] Unary Operators
     - [ ] Negation (`-`)
     - [ ] Bitwise Complement (`~`)
