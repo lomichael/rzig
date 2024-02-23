@@ -4,14 +4,16 @@
 
 A Zig compiler written in Rust.
 
-> **DISCLAIMER**: This is a work-in-progress hobby project. Use at your own risk.
+> **DISCLAIMER**: This is a hobby project and a work-in-progress.
 
-## Prerequisites
+## Build
+rzig has been tested on Debian Linux.
+
+Prerequisites:
 - Rust
-- GCC
-- x86 processor
+- gcc
+- x86-64 processor
 
-## Usage
 To build the compiler:
 ```sh
 make
@@ -21,17 +23,18 @@ or:
 cargo build
 ```
 
-To build and run the tests:
-```sh
-make test
-```
-
-To run the compiler:
+## Usage
+**Run the compiler**:
 ```sh
 ./target/debug/rzig <your_zig_file>
 ```
 
 ## Tests
+**Build and run the tests**:
+```sh
+make test
+```
+
 - [X] Integers
 - [ ] Unary Operators
     - [ ] Negation (`-`)
